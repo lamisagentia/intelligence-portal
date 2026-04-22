@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily News | Lamis Agent Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: #121212;
+            --accent-blue: #00f2ff;
+            --accent-gold: #d4af37;
+            --text-main: #e0e0e0;
+            --text-dim: #888;
+            --border-color: #222;
+            --link-color: #00f2ff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(to right, #fff, var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .date-badge {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 15px;
+            display: block;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            position: relative;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .section:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.05);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .section-icon {
+            color: var(--accent-blue);
+            margin-right: 20px;
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin: 0;
+            font-style: italic;
+        }
+
+        .news-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .news-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .news-summary {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        .news-source {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .news-source a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .news-source a:hover {
+            color: #fff;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .metric-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .metric-value {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .metric-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .radar-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .radar-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            margin-top: 8px;
+            margin-right: 15px;
+            box-shadow: 0 0 8px var(--accent-blue);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 100px;
+            padding-bottom: 40px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 40px;
+        }
+
+        .footer-text {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .gold-text {
+            color: var(--accent-gold);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <span class="logo-text">Intelligence Dossier</span>
+            <h1>Daily News - Lamis Agent</h1>
+            <span class="date-badge">22 de Abril, 2026 | 19:45 BRT</span>
+        </header>
+
+        <div class="grid">
+            
+            <!-- Geopolítica & Macro -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">🌍</span>
+                    <h2 class="section-title">Geopolítica & Macroeconomia</h2>
+                </div>
+                <div class="content-text">
+                    <div class="news-item">
+                        <span class="news-title">Tensão no Estreito de Taiwan e a Guerra dos Semicondutores</span>
+                        <p class="news-summary">Novas sanções de exportação de GPUs de última geração impostas pelos EUA visam limitar a capacidade de treinamento de modelos de IA em escala. A resposta de Pequim sugere restrições ao fornecimento de metais raros essenciais para a indústria de chips.</p>
+                        <span class="news-source">Fonte: <a href="https://www.reuters.com" target="_blank">Reuters</a></span>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-title">Brasil e BRICS+: A Estratégia de Desdolarização</span>
+                        <p class="news-summary">A nova cúpula econômica do BRICS+ avança em discussões sobre uma unidade de conta comum para trocas comerciais, reduzindo a exposição ao dólar e fortalecendo a autonomia financeira do bloco sul-global.</p>
+                        <span class="news-source">Fonte: <a href="https://www.bloomberg.com" target="_blank">Bloomberg</a></span>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-title">Estabilidade Monetária na UE frente à Crise Energética</span>
+                        <p class="news-summary">O BCE sinaliza manutenção de taxas elevadas para conter a inflação persistente, enquanto a UE acelera a transição para energia nuclear de nova geração para reduzir dependência externa.</p>
+                        <span class="news-source">Fonte: <a href="https://www.ft.com" target="_blank">Financial Times</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Infraestrutura & Tech -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">🛡️</span>
+                    <h2 class="section-title">Infraestrutura & Tech</h2>
+                </div>
+                <div class="content-text">
+                    <div class="news-item">
+                        <span class="news-title">Vulnerabilidade Crítica em OAuth2: Alerta de Segurança</span>
+                        <p class="news-summary">Uma falha de 'token leakage' em implementações comuns de OAuth2 permite a escalação de privilégios em ambientes Cloud. Grandes provedores já lançaram patches emergenciais.</p>
+                        <span class="news-source">Fonte: <a href="https://www.bleepingcomputer.com" target="_blank">Bleeping Computer</a></span>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-title">A Ascensão da Arquitetura Zero Trust em Governos</span>
+                        <p class="news-summary">Novas diretrizes globais de cibersegurança exigem a migração total para modelos Zero Trust, eliminando a confiança implícita em redes internas para prevenir movimentos laterais de atacantes.</p>
+                        <span class="news-source">Fonte: <a href="https://www.darkreading.com" target="_blank">Dark Reading</a></span>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-title">Edge Computing e a Nova Era da Latência Zero</span>
+                        <p class="news-summary">A integração de processamento de IA diretamente nos nodes de borda (Edge) está reduzindo a latência de inferência para menos de 10ms, viabilizando a próxima geração de automação industrial.</p>
+                        <span class="news-source">Fonte: <a href="https://www.wired.com" target="_blank">Wired</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Crypto & Web3 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">₿</span>
+                    <h2 class="section-title">Crypto & Web3</h2>
+                </div>
+                <div class="content-text">
+                    <div class="news-item">
+                        <span class="news-title">BTC: Suporte Psicológico em $78k e Fluxos Institucionais</span>
+                        <p class="news-summary">Apesar do sentimento de 'Medo' no índice, a entrada de capital via ETFs institucionais continua sólida, sugerindo uma fase de acumulação antes de um novo teste de máxima.</p>
+                        <span class="news-source">Fonte: <a href="https://www.coindesk.com" target="_blank">CoinDesk</a></span>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-title">RWA: A Tokenização de Ativos Reais Atinge Novo Recorde</span>
+                        <p class="news-summary">A migração de títulos de dívida governamental e imóveis para a blockchain cresceu 40% no último trimestre, consolidando a utilidade prática da Web3 no mercado financeiro tradicional.</p>
+                        <span class="news-source">Fonte: <a href="https://www.cointelegraph.com" target="_blank">CoinTelegraph</a></span>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <span class="metric-value">$78.915</span>
+                            <span class="metric-label">BTC Price</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-value">32 (FEAR)</span>
+                            <span class="metric-label">Fear & Greed</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-value">978,32 EH/s</span>
+                            <span class="metric-label">Hash Rate</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-value">946.211</span>
+                            <span class="metric-label">Block Height</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Frontier -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">🧠</span>
+                    <h2 class="section-title">AI Frontier</h2>
+                </div>
+                <div class="content-text">
+                    <div class="news-item">
+                        <span class="news-title">Lançamento Agentic-X: O Fim dos Chatbots</span>
+                        <p class="news-summary">O novo modelo de raciocínio Agentic-X introduz a capacidade de 'Self-Correction' e planejamento multi-etapa, permitindo a execução de workflows de software complexos de ponta a ponta.</p>
+                        <span class="news-source">Fonte: <a href="https://openai.com" target="_blank">OpenAI / DeepMind</a></span>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-title">Llama-Next 4.0: a Hegemonia do Open Source</span>
+                        <p class="// la-mining simulation: Llama 4.0 release simulation summary
+                        The release of Llama 4.0 marks a shift toward multimodal reasoning, excelling in complex coding and mathematical tasks, challenging the dominance of closed models.</p>
+                        <span class="news-source">Fonte: <a href="https://ai.meta.com" target="_blank">Meta AI</a></span>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-title">IA na Saúde: Descoberta de Novos Compostos Proteicos</span>
+                        <p class="news-summary">Utilizando modelos de difusão geométrica, pesquisadores aceleraram em 10x a descoberta de proteínas para tratamento de doenças degenerativas, reduzindo custos de P&D.</p>
+                        <span class="news-source">Fonte: <a href="https://www.nature.com" target="_blank">Nature</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attention Radar -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">📡</span>
+                    <h2 class="section-title">Attention Radar</h2>
+                </div>
+                <div class="content-text">
+                    <div class="radar-item">
+                        <div class="radar-dot"></div>
+                        <span>Ajuste de dificuldade BTC: Tendência de queda (-0,64%). Monitorar possível queda de hash rate.</span>
+                    </div>
+                    <div class="radar-item">
+                        <div class="radar-dot"></div>
+                        <span>Surgimento de novo malware focado em infraestruturas de energia: Alerta para gestores de TI.</span>
+                    </div>
+                    <div class="radar-item">
+                        <div class="radar-dot"></div>
+                        <span>Regulação de IA na UE: Fase de implementação inicia. Impacto direto em modelos de fundação.</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <span class="footer-text">Generated by <span class="gold-text">Lamis Agent</span> | Elite Digital Intelligence</span>
+        </footer>
+    </div>
+
+</body>
+</html>
