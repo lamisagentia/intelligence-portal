@@ -3,70 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intelligence Dashboard 3.0 | Lamis Agent</title>
+    <title>Intelligence Dashboard 3.1 | Lamis Agent</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-color: #000000; --panel-bg: rgba(20, 20, 20, 0.7); --accent-blue: #00f2ff; --accent-gold: #d4af37; --text-main: #ffffff; --text-dim: #a0a0a0; --border-color: rgba(0, 242, 255, 0.2); --glass-border: rgba(255, 255, 255, 0.1); }
+        :root {
+            --bg-color: #000000;
+            --panel-bg: rgba(20, 20, 20, 0.7);
+            --accent-blue: #00f2ff;
+            --accent-gold: #d4af37;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --border-color: rgba(0, 242, 255, 0.2);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Inter', sans-serif; overflow-x: hidden; background-image: radial-gradient(circle at 10% 20%, rgba(0, 242, 255, 0.05) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 20%); }
-        .ticker-wrap { width: 100%; background: rgba(10, 10, 10, 0.9); border-bottom: 1px solid var(--border-color); padding: 10px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; overflow: hidden; white-space: nowrap; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
-        .ticker-move { display: inline-block; animation: ticker 30s linear infinite; }
-        .ticker-item { display: inline-block; padding: 0 30px; color: var(--text-dim); }
-        .ticker-item span { color: var(--accent-blue); font-weight: bold; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .dashboard-container { display: grid; grid-template-columns: 320px 1fr 320px; gap: 20px; padding: 20px; max-width: 1800px; margin: 0 auto; }
-        header { grid-column: 1 / -1; text-align: center; padding: 40px 0; }
-        header h1 { font-size: 2.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: 5px; background: linear-gradient(to right, var(--accent-blue), var(--accent-gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
-        header p { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; letter-spacing: 2px; }
-        .panel { background: var(--panel-bg); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: 12px; padding: 25px; transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .panel:hover { border-color: var(--accent-blue); box-shadow: 0 0 20px rgba(0, 242, 255, 0.1); transform: translateY(-5px); }
-        .panel-header { display: flex; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; }
-        .panel-header h2 { font-size: 1.2rem; text-transform: uppercase; color: var(--accent-gold); letter-spacing: 1px; font-weight: 600; }
-        .panel-header .icon { margin-right: 12px; color: var(--accent-blue); font-size: 1.4rem; }
-        .news-item { margin-bottom: 25px; animation: fadeIn 0.5s ease forwards; }
-        .news-title { font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-bottom: 8px; line-height: 1.4; cursor: pointer; transition: color 0.2s; }
-        .news-title:hover { color: var(--accent-blue); }
-        .news-summary { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 12px; }
-        .source-link { display: inline-flex; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent-blue); text-decoration: none; text-transform: uppercase; border: 1px solid var(--accent-blue); padding: 3px 8px; border-radius: 4px; transition: all 0.2s; }
-        .source-link:hover { background: var(--accent-blue); color: #000; }
-        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .metric-card { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid var(--glass-border); }
-        .metric-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 5px; }
-        .metric-value { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: bold; color: var(--text-main); }
-        .metric-change { font-size: 0.8rem; margin-top: 5px; }
-        .up { color: #00ff88; } .down { color: #ff4444; }
-        footer { grid-column: 1 / -1; text-align: center; padding: 50px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-dim); border-top: 1px solid var(--glass_border); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 1100px) { .dashboard-container { grid-template-columns: 1fr; } }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 20%);
+        }
+        .ticker-wrap {
+            width: 100%;
+            background: rgba(10, 10, 10, 0.9);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            overflow: hidden;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        .ticker-move {
+            display: inline-block;
+            animation: ticker 40s linear infinite;
+        }
+        .ticker-item {
+            display: inline-block;
+            padding: 0 30px;
+            color: var(--text-dim);
+        }
+        .ticker-item span {
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 320px 1fr 320px;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        header {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 0;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .panel:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
+            transform: translateY(-5px);
+        }
+        .panel-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 15px;
+        }
+        .panel-header h2 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .panel-header .icon {
+            margin-right: 12px;
+            color: var(--accent-blue);
+            font-size: 1.4rem;
+        }
+        .news-item {
+            margin-bottom: 25px;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        .news-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .news-title:hover {
+            color: var(--accent-blue);
+        }
+        .news-summary {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .source-link {
+            display: inline-flex;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            text-transform: uppercase;
+            border: 1px solid var(--accent-blue);
+            padding: 3px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .source-link:hover {
+            background: var(--accent-blue);
+            color: #000;
+        }
+        footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            border-top: 1px solid var(--glass_border);
+        }
+        @keyframes fadeIn {
+            from {{ opacity: 0; transform: translateY(10px); }}
+            to {{ opacity: 1; transform: translateY(0); }}
+        }
+        @media (max-width: 1100px) {
+            .dashboard-container {{ grid-template-columns: 1fr; }}
+        }
     </style>
 </head>
 <body>
-    <div class="ticker-wrap"><div class="ticker-move" id="market-ticker">Loading Market Data...</div></div>
+    <div class="ticker-wrap">
+        <div class="ticker-move" id="market-ticker">Loading Top 10 Market Data...</div>
+    </div>
     <div class="dashboard-container">
-        <header><h1>Intelligence Dashboard 3.0</h1><p>SYSTEM STATUS: OPERATIONAL | SOURCE: GLOBAL ELITE NETWORK</p></header>
-        <aside class="panel"><div class="panel-header"><span class="icon">🌐</span><h2>Macro & Geo</h2></div><div id="macro-content"><div class="news-item"><div class="news-title">Semicondutores: EUA e Holanda Aperta Cerco à China</div><div class="news-summary">Novas restrições à exportação de máquinas de litografia DUV visam neutralizar a capacidade chinesa de produzir chips de IA.</div><a href="https://www.reuters.com" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">BRICS+ e a Infraestrutura de Pagamentos Alternativa</div><div class="news-summary">Discussão avançada sobre o 'BRICS Pay' para liquidação de trocas comerciais sem a necessidade de câmaras de compensação em USD.</div><a href="https://www.bloomberg.com" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">Guerra de Atrito no Leste Europeu: Impactos no Gás Natural</div><div class="news-summary">Novas rupturas em gasodutos elevam a volatilidade nos preços da energia na Europa, forçando a aceleração de energias alternativas.</div><a href="https://www.ft.com" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">Petrodólar em Xeque: A Ascensão do Yuan no Mercado de Petróleo</div><div class="news-summary">Aumento expressivo de contratos de petróleo liquidados em CNY, alterando a dinâmica de reservas globais.</div><a href="https://www.cnbc.com" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">Geopolítica da Energia: O Retorno do Nuclear Modular</div><div class="news-summary">Investimentos bilionários de Big Techs em reatores SMR para garantir energia estável para clusters de GPUs.</div><a href="https://www.economist.com" target="_blank" class="source-link">Fonte Original</a></div></div></aside>
-        <main class="panel"><div class="panel-header"><span class="icon">⚡</span><h2>AI Frontier & Tech</h2></div><div id="ai-content"><div class="news-item"><div class="news-title">Kimi 2.6: A Nova Era do Raciocínio Simbólico</div><div class="news-summary">Moonshot AI integra raciocínio lógico avançado, reduzindo alucinações em codificação e matemática complexa.</div><a href="https://moonshot.ai" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">OpenAI 'Strawberry': O Salto para a AGI</div><div class="news-summary">Novos modelos com capacidade de planejamento interno ('Chain of Thought' nativo) permitem resolver problemas nunca vistos.</div><a href="https://openai.com" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">IA Agêntica: O Deslocamento da Interface de Usuário</div><div class="news-summary">Sistemas que operam o computador via visão e ação estão tornando os menus de aplicativos obsoletos.</div><a href="https://techcrunch.com" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">IA e Biotecnologia: A Descoberta de Novos Antibióticos</div><div class="news-summary">Modelos de difusão molecular aceleram em 100x a descoberta de fármacos contra bactérias resistentes.</div><a href="https://nature.com" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">O Colapso do Modelo de Negócio de SEO via IA</div><div class="news-summary">Search Generative Experience (SGE) reduz cliques em sites, forçando a web a migrar para modelos de assinatura.</div><a href="https://wired.com" target="_blank" class="source-link">Fonte Original</a></div></div></main>
-        <aside class="panel"><div class="panel-header"><span class="icon">₿</span><h2>Crypto & Strategy</h2></div><div class="metric-grid"><div class="metric-card"><div class="metric-label">Bitcoin</div><div class="metric-value" id="btc-price">Loading...</div><div class="metric-change" id="btc-change">--</div></div><div class="metric-card"><div class="metric-label">Ethereum</div><div class="metric-value" id="eth-price">Loading...</div><div class="metric-change" id="eth-change">--</div></div></div><div id="crypto-content"><div class="news-item"><div class="news-title">BTC: A Absorção Institucional via ETFs</div><div class="news-summary">Fluxo líquido de entrada em ETFs de Bitcoin atinge recordes, transformando o BTC em um ativo de reserva tática.</div><a href="https://www.coindesk.com" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">Solana Firedancer: A Promessa de 1 Milhão de TPS</div><div class="news-summary">O novo cliente de validação promete estabilidade industrial e escalabilidade sem precedentes para a rede.</div><a href="https://www.theblock.co" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">Tokenização de RWA: O Próximo Trilhão de Dólares</div><div class="news-summary">BlackRock lidera a migração de fundos monetários para on-chain, validando a infraestrutura de ativos reais.</div><a href="https://blackrock.com" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">Layer 2s e a Fragmentação da Liquidez</div><div class="news-summary">Novas soluções de agregação de liquidez buscam unificar a experiência do usuário entre múltiplas redes Ethereum.</div><a href="https://glassnode.com" target="_blank" class="source-link">Fonte Original</a></div><div class="news-item"><div class="news-title">Regulação MiCA na Europa: O Padrão Global</div><div class="news-summary">A implementação total do MiCA começa a forçar stablecoins não reguladas a saírem do mercado europeu.</div><a href="https://cointelegraph.com" target="_blank" class="source-link">Fonte Original</a></div></div></aside>
+        <header>
+            <h1>Intelligence Dashboard 3.1</h1>
+        </header>
+        <aside class="panel">
+            <div class="panel-header"><span class="icon">🌐</span><h2>Macro & Geo</h2></div>
+            <div id="macro-content">
+                <!-- Content injected by Agent -->
+                <div class="news-item">
+                    <div class="news-title">Semicondutores: EUA e Holanda Aperta Cerco à China</div>
+                    <div class="news-summary">Novas restrições à exportação de máquinas de litografia DUV visam neutralizar a capacidade chinesa de produzir chips de IA.</div>
+                    <a href="https://www.reuters.com" target="_blank" class="source-link">Fonte Original</a>
+                </div>
+            </div>
+        </aside>
+        <main class="panel">
+            <div class="panel-header"><span class="icon">⚡</span><h2>AI Frontier & Tech</h2></div>
+            <div id="ai-content">
+                <!-- Content injected by Agent -->
+                <div class="news-item">
+                    <div class="news-title">Kimi 2.6: A Nova Era do Raciocínio Simbólico</div>
+                    <div class="news-summary">Moonshot AI integra raciocínio lógico avançado, reduzindo alucinações em codificação e matemática complexa.</div>
+                    <a href="https://moonshot.ai" target="_blank" class="source-link">Fonte Original</a>
+                </div>
+            </div>
+        </main>
+        <aside class="panel">
+            <div class="panel-header"><span class="icon">₿</span><h2>Crypto & Strategy</h2></div>
+            <div id="crypto-content">
+                <!-- Content injected by Agent -->
+                <div class="news-item">
+                    <div class="news-title">BTC: A Absorção Institucional via ETFs</div>
+                    <div class="news-summary">Fluxo líquido de entrada em ETFs de Bitcoin atinge recordes, transformando o BTC em um ativo de reserva tática.</div>
+                    <a href="https://www.coindesk.com" target="_blank" class="source-link">Fonte Original</a>
+                </div>
+            </div>
+        </aside>
         <footer>GENERATED BY <span style="color: var(--accent-gold)">LAMIS AGENT</span> | ELITE DIGITAL INTELLIGENCE | &copy; 2026</footer>
     </div>
     <script>
-        async function updateMarketData() {
-            try {
-                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,gold&vs_currencies=usd&include_24hr_change=true');
+        async function updateMarketData() {{
+            try {{
+                const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false');
                 const data = await response.json();
-                const btc = data.bitcoin; const eth = data.ethereum;
-                document.getElementById('btc-price').innerText = `$${btc.usd.toLocaleString()}`;
-                const btcChange = btc.usd_24h_change.toFixed(2);
-                document.getElementById('btc-change').innerText = `${btcChange}%`;
-                document.getElementById('btc-change').className = `metric-change ${btcChange >= 0 ? 'up' : 'down'}$;
-                document.getElementById('eth-price').innerText = `$${eth.usd.toLocaleString()}`;
-                const ethChange = eth.usd_24h_change.toFixed(2);
-                document.getElementById('eth-change').innerText = `${ethChange}%`;
-                document.getElementById('eth-change').className = `metric-change ${ethChange >= 0 ? 'up' : 'down'}$;
-                const ticker = document.getElementById('market-ticker');
-                ticker.innerHTML = `<div class="ticker-move"><div class="ticker-item">BTC/USD: <span>$${btc.usd}</span> (${btcChange}%)</div><div class="ticker-item">ETH/USD: <span>$${eth.usd}</span> (${ethChange}%)</div><div class="ticker-item">SYSTEM STATUS: <span>OPTIMAL</span></div><div class="ticker-item">LATEST INTEL: <span>SINCED</span></div><div class="ticker-item">BTC/USD: <span>$${btc.usd}</span> (${btcChange}%)</div><div class="ticker-item">ETH/USD: <span>$${eth.usd}</span> (${ethChange}%)</div><div class="ticker-item">SYSTEM STATUS: <span>OPTIMAL</span></div><div class="ticker-item">LATEST INTEL: <span>SINCED</span></div></div>`;
-            } catch (e) { console.error('Ticker error:', e); }
-        }
+                
+                let tickerHtml = '<div class="ticker-move">';
+                data.forEach(coin => {{
+                    const change = coin.price_change_percentage_24h.toFixed(2);
+                    const color = change >= 0 ? '#00ff88' : '#ff4444';
+                    tickerHtml += `<div class="ticker-item">${{coin.symbol.toUpperCase()}}/USD: <span style="color: ${{color}}">$${{coin.current_price.toLocaleString()}} (${{change}}%)</span></div>`;
+                }});
+                tickerHtml += '</div>';
+                
+                document.getElementById('market-ticker').innerHTML = tickerHtml;
+            }} catch (e) {{
+                console.error('Ticker error:', e);
+                document.getElementById('market-ticker').innerText = 'Market Data Unavailable';
+            }}
+        }}
         updateMarketData();
         setInterval(updateMarketData, 60000);
     </script>
